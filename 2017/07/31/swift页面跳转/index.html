@@ -1,0 +1,679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="今天搞通了swift页面跳转。如果对比前端或者说web应用，其实就是“路由”，像react应用，可以通过react-router来管理路由，vue可以通过vue-router来管理路由类似，swift中可以用UINavigationController来管理“路由”，这里应该叫“导航”吧。iOS中有两种不同形式的跳转，一种是有逻辑层级关系的跳转，一种是临时页面的跳转。 具有逻辑层级关系的页面跳转比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swift页面跳转">
+<meta property="og:url" content="https://getter.me/2017/07/31/swift页面跳转/index.html">
+<meta property="og:site_name" content="John Ninja">
+<meta property="og:description" content="今天搞通了swift页面跳转。如果对比前端或者说web应用，其实就是“路由”，像react应用，可以通过react-router来管理路由，vue可以通过vue-router来管理路由类似，swift中可以用UINavigationController来管理“路由”，这里应该叫“导航”吧。iOS中有两种不同形式的跳转，一种是有逻辑层级关系的跳转，一种是临时页面的跳转。 具有逻辑层级关系的页面跳转比">
+<meta property="og:updated_time" content="2017-07-31T07:38:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="swift页面跳转">
+<meta name="twitter:description" content="今天搞通了swift页面跳转。如果对比前端或者说web应用，其实就是“路由”，像react应用，可以通过react-router来管理路由，vue可以通过vue-router来管理路由类似，swift中可以用UINavigationController来管理“路由”，这里应该叫“导航”吧。iOS中有两种不同形式的跳转，一种是有逻辑层级关系的跳转，一种是临时页面的跳转。 具有逻辑层级关系的页面跳转比">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://getter.me/2017/07/31/swift页面跳转/"/>
+
+
+
+
+
+  <title>swift页面跳转 | John Ninja</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">John Ninja</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">this is my test blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://getter.me/2017/07/31/swift页面跳转/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Johnninja">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="John Ninja">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">swift页面跳转</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-31T14:40:55+08:00">
+                2017-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天搞通了swift页面跳转。如果对比前端或者说web应用，其实就是“路由”，像react应用，可以通过react-router来管理路由，vue可以通过vue-router来管理路由类似，swift中可以用<code>UINavigationController</code>来管理“路由”，这里应该叫“导航”吧。iOS中有两种不同形式的跳转，一种是有逻辑层级关系的跳转，一种是临时页面的跳转。</p>
+<h2 id="具有逻辑层级关系的页面跳转"><a href="#具有逻辑层级关系的页面跳转" class="headerlink" title="具有逻辑层级关系的页面跳转"></a>具有逻辑层级关系的页面跳转</h2><p>比如网上购物，下单之后要跳到订单页面，再跳到支付页面等等，这种跳转是有一定逻辑，或者说先后顺序的。这种跳转需要用<code>NavigationViewController</code>进行跳转。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class ViewController: UIViewController &#123;</div><div class="line">    override func viewDidLoad() &#123;</div><div class="line">        super.viewDidLoad()</div><div class="line"></div><div class="line">        //创建一个按钮，用来跳转页面</div><div class="line">        let btn = UIButton(frame: CGRect(x: 100, y: 80, width: 100, height: 45 ))</div><div class="line">        btn.setTitle(&quot;Next&quot;, for: .normal)</div><div class="line">        btn.backgroundColor = .blue</div><div class="line">        btn.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)</div><div class="line">     </div><div class="line">        self.view.addSubview(btn)</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    </div><div class="line">    func gotoNext() &#123;</div><div class="line">        let anotherView = HelloController() //要跳转到的页面</div><div class="line">        self.navigationController?.pushViewController(anotherView, animated: true)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码，使用<code>navigationController</code>下的<code>pushViewController</code>方法进行跳转。同时新建一个Cocoa Touch Class文件，然后选择subclass为<code>UIViewController</code>,文件名是上面代码用到的<code>HelloController</code>，这就是要跳转到的第二个页面。我们在这个页面放一个返回的按钮，跳回到原来的页面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">class HelloController: UIViewController &#123;</div><div class="line"></div><div class="line">    override func viewDidLoad() &#123;</div><div class="line">        super.viewDidLoad()</div><div class="line">        let button = UIButton()</div><div class="line">        button.frame = CGRect(x: 50, y: 80, width: 100, height: 45)</div><div class="line">        button.setTitle(&quot;Back&quot;, for: .normal)</div><div class="line">        button.backgroundColor = UIColor.cyan</div><div class="line">        button.addTarget(self, action: #selector(back), for: .touchUpInside)</div><div class="line">        </div><div class="line">        view.addSubview(button)</div><div class="line">        view.backgroundColor = UIColor.white //设置一下北京色，不然是黑的😂</div><div class="line"></div><div class="line">        print(&quot;second page&quot;)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    func back() &#123;</div><div class="line">    	// 返回上一页</div><div class="line">        self.navigationController?.popViewController(animated: true)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>点击Back按钮，返回上一页。使用<code>navigationController</code>下的<code>popViewController</code>方法实现返回。但是如果这时编译页面，在模拟器中点击Next按钮，发现并没有任何事情发生😅这块找了半天才找到解决办法，最后发现，是没有实例化<code>UINavigationController</code>，其实看到<code>navigationController</code>是一个可选类型就可以猜到一二。接下来，该在什么地方实例化这个<code>UINavigationController</code>呢？如果你直接在页面实例化，发现一样不管用。类比一下react里的路由(react-router 4.0之前的版本)，就会发现，导航其实是一个全局的东西，来管理所有的界面堆栈，而不是存在于某一个页面内。如果放入某一个页面内，每次加载都是实例化的一个新<code>UINavigationController</code>，它在其他页面是没法被拿到的。如这个例子中，如果在第一页实例化一个导航控制器，在第二页中是拿不到的。所以，要解决这个问题，就要实例化一个全局的<code>UINavigationController</code>。我们可以在<code>AppDelegate.swift</code>中实例化这个全局导航器。在<code>application</code>方法中，添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let mainPage = ViewController()</div><div class="line">let navRoot = UINavigationController(rootViewController: mainPage)</div><div class="line"></div><div class="line">window = UIWindow(frame: UIScreen.main.bounds)</div><div class="line">window?.backgroundColor = UIColor.white</div><div class="line">window?.rootViewController = navRoot</div></pre></td></tr></table></figure>
+<p>即通过给window的rootViewController赋值一个<code>UINavigationController</code>实例，就可以在所有页面使用<code>navigationController</code>了。这里其实是重写了应用启动后的默认行为，所以需要在实例化<code>UINavigationController</code>时指定一下根试图。同时，把window大小设置成了满屏。然后给个背景色，否则是黑的😓。这样就可以了，其他页面直接使用<code>pushViewController</code>和<code>popViewController</code>就可以了。</p>
+<h2 id="临时页面的跳转"><a href="#临时页面的跳转" class="headerlink" title="临时页面的跳转"></a>临时页面的跳转</h2><p>临时页面跳转，不知道有没有一个专业的名称。我觉得可以看作是一个弹出页，比如点击一个表单控件，可以弹出一个相应的编辑页。这个是属于该页面的行为，所以不需要全局使用，视图自带。代码还是用上面的，不过跳转方法改一下就可以了。跳转到下一页，可以用<code>self.present(anotherView, animated: true, completion: nil)</code>,这样页面会从底部弹出。收回页面，调用<code>self.dismiss(animated: true, completion: nil)</code>。这里灰常简单，就认识俩方法而已。</p>
+<p>over！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/26/swift闭包/" rel="next" title="swift闭包">
+                <i class="fa fa-chevron-left"></i> swift闭包
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Johnninja" />
+          <p class="site-author-name" itemprop="name">Johnninja</p>
+           
+              <p class="site-description motion-element" itemprop="description">nothing's here</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#具有逻辑层级关系的页面跳转"><span class="nav-number">1.</span> <span class="nav-text">具有逻辑层级关系的页面跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#临时页面的跳转"><span class="nav-number">2.</span> <span class="nav-text">临时页面的跳转</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnninja</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
