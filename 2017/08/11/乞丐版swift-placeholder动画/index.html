@@ -93,16 +93,18 @@
 
 
 
-<meta name="description" content="本人苦逼前端一枚，在一个苦逼的城市里的一个苦逼公司里苦逼的搬砖。由于种种原因，前端并不被重视，连提交到代码库的机会都没有😂。并且团队都用svn管理代码，我只有自己研究了。第一次在github上写博客，这篇毫无技术含量的文章（咳咳，即便如此，也是参考网上的），权当练手了。  要在Mac上面使用Github，大致就简单的两步。一、生成ssh的公钥；二、把生成的公钥添加到Github中。就是这点儿事">
+<meta name="description" content="在swift群里发现有人在找这种动画。感觉这种应该可以自己写，不用找别人的吧？于是自己就想试试能不能成功，毕竟菜鸟。下面是动画效果，大家应该都见过的。  没错，就是这个简单的效果。自己找了一点儿资料，发现不是很复杂。但是自己对于iOS接触的太少，里面的API什么的都不熟悉，属于摸着石头过河。基本的实现方式就是自定义UITextField这个控件。 1234567891011121314151617">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac配置github">
-<meta property="og:url" content="https://getter.me/2017/06/07/2015-10-21-Mac-build-github/index.html">
+<meta property="og:title" content="乞丐版swift placeholder动画">
+<meta property="og:url" content="https://getter.me/2017/08/11/乞丐版swift-placeholder动画/index.html">
 <meta property="og:site_name" content="John Ninja">
-<meta property="og:description" content="本人苦逼前端一枚，在一个苦逼的城市里的一个苦逼公司里苦逼的搬砖。由于种种原因，前端并不被重视，连提交到代码库的机会都没有😂。并且团队都用svn管理代码，我只有自己研究了。第一次在github上写博客，这篇毫无技术含量的文章（咳咳，即便如此，也是参考网上的），权当练手了。  要在Mac上面使用Github，大致就简单的两步。一、生成ssh的公钥；二、把生成的公钥添加到Github中。就是这点儿事">
-<meta property="og:updated_time" content="2017-06-21T10:20:06.000Z">
+<meta property="og:description" content="在swift群里发现有人在找这种动画。感觉这种应该可以自己写，不用找别人的吧？于是自己就想试试能不能成功，毕竟菜鸟。下面是动画效果，大家应该都见过的。  没错，就是这个简单的效果。自己找了一点儿资料，发现不是很复杂。但是自己对于iOS接触的太少，里面的API什么的都不熟悉，属于摸着石头过河。基本的实现方式就是自定义UITextField这个控件。 1234567891011121314151617">
+<meta property="og:image" content="https://getter.me/2017/08/11/乞丐版swift-placeholder动画/placeholder.gif">
+<meta property="og:updated_time" content="2017-08-11T07:58:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac配置github">
-<meta name="twitter:description" content="本人苦逼前端一枚，在一个苦逼的城市里的一个苦逼公司里苦逼的搬砖。由于种种原因，前端并不被重视，连提交到代码库的机会都没有😂。并且团队都用svn管理代码，我只有自己研究了。第一次在github上写博客，这篇毫无技术含量的文章（咳咳，即便如此，也是参考网上的），权当练手了。  要在Mac上面使用Github，大致就简单的两步。一、生成ssh的公钥；二、把生成的公钥添加到Github中。就是这点儿事">
+<meta name="twitter:title" content="乞丐版swift placeholder动画">
+<meta name="twitter:description" content="在swift群里发现有人在找这种动画。感觉这种应该可以自己写，不用找别人的吧？于是自己就想试试能不能成功，毕竟菜鸟。下面是动画效果，大家应该都见过的。  没错，就是这个简单的效果。自己找了一点儿资料，发现不是很复杂。但是自己对于iOS接触的太少，里面的API什么的都不熟悉，属于摸着石头过河。基本的实现方式就是自定义UITextField这个控件。 1234567891011121314151617">
+<meta name="twitter:image" content="https://getter.me/2017/08/11/乞丐版swift-placeholder动画/placeholder.gif">
 
 
 
@@ -130,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://getter.me/2017/06/07/2015-10-21-Mac-build-github/"/>
+  <link rel="canonical" href="https://getter.me/2017/08/11/乞丐版swift-placeholder动画/"/>
 
 
 
 
 
-  <title>Mac配置github | John Ninja</title>
+  <title>乞丐版swift placeholder动画 | John Ninja</title>
   
 
 
@@ -255,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://getter.me/2017/06/07/2015-10-21-Mac-build-github/">
+    <link itemprop="mainEntityOfPage" href="https://getter.me/2017/08/11/乞丐版swift-placeholder动画/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Johnninja">
@@ -272,7 +274,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mac配置github</h1>
+          <h1 class="post-title" itemprop="name headline">乞丐版swift placeholder动画</h1>
         
 
         <div class="post-meta">
@@ -284,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T11:09:43+08:00">
-                2017-06-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-11T15:38:43+08:00">
+                2017-08-11
               </time>
             
 
@@ -294,28 +296,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -341,46 +321,12 @@
       
 
       
-        <blockquote>
-<p>本人苦逼前端一枚，在一个苦逼的城市里的一个苦逼公司里苦逼的搬砖。由于种种原因，前端并不被重视，连提交到代码库的机会都没有😂。并且团队都用svn管理代码，我只有自己研究了。第一次在github上写博客，这篇毫无技术含量的文章（咳咳，即便如此，也是参考网上的），权当练手了。</p>
-</blockquote>
-<p>要在Mac上面使用Github，大致就简单的两步。一、生成ssh的公钥；二、把生成的公钥添加到Github中。就是这点儿事而已，也值得记？😂</p>
-<h2 id="一、生成ssh公钥"><a href="#一、生成ssh公钥" class="headerlink" title="一、生成ssh公钥"></a>一、生成ssh公钥</h2><p>利用以下命令生成公钥</p>
-<pre><code>$ ssh-keygen -t rsa -C xxx@email.com 
-Generating public/private rsa key pair.
-    Enter file in which to save the key (/Users/username/.ssh/id_rsa): 
-    Created directory &apos;/Users/username/.ssh&apos;.
-    Enter passphrase (empty for no passphrase): 
-    Enter same passphrase again: 
-    Your identification has been saved in /Users/username/.ssh/id_rsa.
-    Your public key has been saved in /Users/username/.ssh/id_rsa.pub.
-    The key fingerprint is:
-    18:16:11:c9:01:6c:48:09:7f:27:c6:43:0d:7f:3f:84 xxxxx@gmail.com
-    The key&apos;s randomart image is:
-    +--[ RSA 2048]----+
-    |.o.++===         |
-    |.ooo.+. .       |
-    |  ..* = E .      |
-    |   o = + o       |
-    |      . S o      |
-    |           .     |
-    |                 |
-    |                 |
-    |                 |
-   +-----------------+
-</code></pre><p>以上邮箱为你在Github注册的邮箱，生成密钥过程中会提示你选择密钥的存放位置。如果你不做修改，会默认存把密钥放在当前用户的<code>.ssh</code>目录下。之后会提示输入密码，密码可以为空。</p>
-<h2 id="二、把生成的公钥添加到Github"><a href="#二、把生成的公钥添加到Github" class="headerlink" title="二、把生成的公钥添加到Github"></a>二、把生成的公钥添加到Github</h2><p>登录Github，选择Account Settings –&gt; SSH Keys添加新的ssh<br>其中title为这个ssh key的名字，可以随便起。不过你的ssh key可能不只这一个，为了方便管理，最好起一个有意义的名字。</p>
-<p>之后在key文本域中添加刚刚生成的公钥。进入你之前保存密钥的目录，将名为<code>id_rsa.pub</code>的公钥里面的内容复制到key里，保存即可。</p>
-<p>之后可以通过以下命令检测是否配置成功。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div></pre></td></tr></table></figure>
-<p>配置成功后会出现以下提示</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hi MiracleHe! You\<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure>
-<h2 id="三、测试提交代码"><a href="#三、测试提交代码" class="headerlink" title="三、测试提交代码"></a>三、测试提交代码</h2><p>之后正好用这篇文章测试一下，<code>git push</code>之后，报了以下错误：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">fatal: remote error: </div><div class="line">You can\<span class="string">'t push to git://github.com/johnninja/johnninja.git</span></div></pre></td></tr></table></figure>
-<p>查阅过后，发现这是由于之前我是通过<code>git@github.com/xxx/xxx.git</code>方法<code>clone</code>过来的代码，而git协议不支持此方法<code>push</code>。</p>
-<p>可以通过以下方法来解决这个问题：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git remote rm origin</div><div class="line">$ git remote add origin git@github.com:username/xxx.git</div></pre></td></tr></table></figure>
-<p>这样就大功告成了！</p>
+        <p>在swift群里发现有人在找这种动画。感觉这种应该可以自己写，不用找别人的吧？于是自己就想试试能不能成功，毕竟菜鸟。下面是动画效果，大家应该都见过的。</p>
+<p><img src="/2017/08/11/乞丐版swift-placeholder动画/placeholder.gif" alt="placeholder"></p>
+<p>没错，就是这个简单的效果。自己找了一点儿资料，发现不是很复杂。但是自己对于iOS接触的太少，里面的API什么的都不熟悉，属于摸着石头过河。基本的实现方式就是自定义<code>UITextField</code>这个控件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">class LabelInput: UITextField &#123;</div><div class="line"></div><div class="line">    var placeholderLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))</div><div class="line">    var animationDuration: TimeInterval = 0.35</div><div class="line">    override func draw(_ rect: CGRect) &#123;</div><div class="line">        super.draw(rect)</div><div class="line">        self.addTarget(self, action: #selector(didEditEnd), for: .editingDidEnd)</div><div class="line">    &#125;</div><div class="line">    override func drawPlaceholder(in rect: CGRect) &#123;</div><div class="line">        super.drawPlaceholder(in: rect)</div><div class="line">        placeholderLabel = UILabel(frame: CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.size.width, height: rect.size.height))</div><div class="line">        placeholderLabel.text = placeholder</div><div class="line">        self.placeholder = nil</div><div class="line">        placeholderLabel.font = UIFont(name: self.font!.fontName, size: self.font!.pointSize)</div><div class="line">        self.addSubview(placeholderLabel)</div><div class="line">    &#125;</div><div class="line">    override func touchesBegan(_ touches: Set&lt;UITouch&gt;, with event: UIEvent?) &#123;</div><div class="line">        UIView.animate(withDuration: animationDuration, animations: &#123;</div><div class="line">          self.placeholderLabel.center = CGPoint(x: self.placeholderLabel.center.x, y: -20)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">    func didEditEnd()&#123;</div><div class="line">        if text?.characters.count == 0 &#123;</div><div class="line">            UIView.animate(withDuration: animationDuration, animations: &#123;</div><div class="line">                self.placeholderLabel.center = CGPoint(x: self.placeholderLabel.center.x, y: self.frame.size.height/2)</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这真真是一个乞丐版了。基本思路就是重写<code>drawPlaceholder</code>这个方法。新建一个<code>UILabel</code>替换掉原来真正的<code>placeholder</code>，然后接下来动画改变的其实是这个label。点击输入框的时候改变label的坐标，输入结束的时候判断一下输入框内容，如果是空的就让label回到原来位置。</p>
+<p>这个乞丐版只是改了一下y坐标，颜色什么都没关注，动画也没有调试，没有精确计算，只是一个思路而已。写前端的时候喜欢自己写这些控件之类的，我感觉有些简单的东西，自己写比到网上现找别人的要简单。多动手吧😂</p>
 
       
     </div>
@@ -417,15 +363,15 @@ Generating public/private rsa key pair.
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/07/31/swift页面跳转/" rel="next" title="swift页面跳转">
+                <i class="fa fa-chevron-left"></i> swift页面跳转
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/07/2015-10-26-正则中的问号/" rel="prev" title="正则中的问号">
-                正则中的问号 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -472,17 +418,8 @@ Generating public/private rsa key pair.
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -535,22 +472,6 @@ Generating public/private rsa key pair.
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、生成ssh公钥"><span class="nav-number">1.</span> <span class="nav-text">一、生成ssh公钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、把生成的公钥添加到Github"><span class="nav-number">2.</span> <span class="nav-text">二、把生成的公钥添加到Github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、测试提交代码"><span class="nav-number">3.</span> <span class="nav-text">三、测试提交代码</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

@@ -256,6 +256,123 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://getter.me/2017/08/11/乞丐版swift-placeholder动画/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Johnninja">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="John Ninja">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/11/乞丐版swift-placeholder动画/" itemprop="url">乞丐版swift placeholder动画</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-11T15:38:43+08:00">
+                2017-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在swift群里发现有人在找这种动画。感觉这种应该可以自己写，不用找别人的吧？于是自己就想试试能不能成功，毕竟菜鸟。下面是动画效果，大家应该都见过的。</p>
+<p><img src="/2017/08/11/乞丐版swift-placeholder动画/placeholder.gif" alt="placeholder"></p>
+<p>没错，就是这个简单的效果。自己找了一点儿资料，发现不是很复杂。但是自己对于iOS接触的太少，里面的API什么的都不熟悉，属于摸着石头过河。基本的实现方式就是自定义<code>UITextField</code>这个控件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">class LabelInput: UITextField &#123;</div><div class="line"></div><div class="line">    var placeholderLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))</div><div class="line">    var animationDuration: TimeInterval = 0.35</div><div class="line">    override func draw(_ rect: CGRect) &#123;</div><div class="line">        super.draw(rect)</div><div class="line">        self.addTarget(self, action: #selector(didEditEnd), for: .editingDidEnd)</div><div class="line">    &#125;</div><div class="line">    override func drawPlaceholder(in rect: CGRect) &#123;</div><div class="line">        super.drawPlaceholder(in: rect)</div><div class="line">        placeholderLabel = UILabel(frame: CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.size.width, height: rect.size.height))</div><div class="line">        placeholderLabel.text = placeholder</div><div class="line">        self.placeholder = nil</div><div class="line">        placeholderLabel.font = UIFont(name: self.font!.fontName, size: self.font!.pointSize)</div><div class="line">        self.addSubview(placeholderLabel)</div><div class="line">    &#125;</div><div class="line">    override func touchesBegan(_ touches: Set&lt;UITouch&gt;, with event: UIEvent?) &#123;</div><div class="line">        UIView.animate(withDuration: animationDuration, animations: &#123;</div><div class="line">          self.placeholderLabel.center = CGPoint(x: self.placeholderLabel.center.x, y: -20)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">    func didEditEnd()&#123;</div><div class="line">        if text?.characters.count == 0 &#123;</div><div class="line">            UIView.animate(withDuration: animationDuration, animations: &#123;</div><div class="line">                self.placeholderLabel.center = CGPoint(x: self.placeholderLabel.center.x, y: self.frame.size.height/2)</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这真真是一个乞丐版了。基本思路就是重写<code>drawPlaceholder</code>这个方法。新建一个<code>UILabel</code>替换掉原来真正的<code>placeholder</code>，然后接下来动画改变的其实是这个label。点击输入框的时候改变label的坐标，输入结束的时候判断一下输入框内容，如果是空的就让label回到原来位置。</p>
+<p>这个乞丐版只是改了一下y坐标，颜色什么都没关注，动画也没有调试，没有精确计算，只是一个思路而已。写前端的时候喜欢自己写这些控件之类的，我感觉有些简单的东西，自己写比到网上现找别人的要简单。多动手吧😂</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://getter.me/2017/07/31/swift页面跳转/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -603,7 +720,7 @@
 <p>几乎每一个框架中都或多或少有正则表达式的出现，一个正则表达式，可以节省许多各种冗长的匹配代码。今天看到某一框架，突然里面的正则不是很复杂，于是想研究一下。发现看不懂！尤其是对里面的“？”。于是赶紧补充了一下知识，以此记之！</p>
 </blockquote>
 <p>问号在正则中有许多用法，这里我就把我找到几个用法罗列一下，主要参考的：</p>
-<h2 id="“-”匹配前面的字符，0次或1次，相当于-0-1"><a href="#“-”匹配前面的字符，0次或1次，相当于-0-1" class="headerlink" title="“?”匹配前面的字符，0次或1次，相当于{0,1}"></a>“?”匹配前面的字符，0次或1次，相当于{0,1}</h2><p>比如<code>/e?le?/</code>会匹配“angular”中的“l”，会匹配“angel”中的“el”，会匹配“angel”中的“el”。对字母“e”匹配0或1次。<br>
+<h2 id="“-”匹配前面的字符，0次或1次，相当于-0-1"><a href="#“-”匹配前面的字符，0次或1次，相当于-0-1" class="headerlink" title="“?”匹配前面的字符，0次或1次，相当于{0,1}"></a>“?”匹配前面的字符，0次或1次，相当于{0,1}</h2><p>比如<code>/e?le?/</code>会匹配“angular”中的“l”，会匹配“angel”中的“el”，会匹配“angel”中的“el”。对字母“e”匹配0或1次。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/06/07/2015-10-26-正则中的问号/#more" rel="contents">
@@ -861,7 +978,7 @@ Generating public/private rsa key pair.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
