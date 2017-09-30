@@ -99,6 +99,7 @@
 <meta property="og:url" content="https://getter.me/index.html">
 <meta property="og:site_name" content="John Ninja">
 <meta property="og:description" content="nothing&apos;s here">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="John Ninja">
 <meta name="twitter:description" content="nothing&apos;s here">
@@ -256,6 +257,146 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://getter.me/2017/09/29/swift写Mac屏保/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Johnninja">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="John Ninja">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/29/swift写Mac屏保/" itemprop="url">swift写Mac屏保</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-29T17:11:22+08:00">
+                2017-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>突发奇想，想写一个Mac的屏保。但是从网上找了好多，都是用OC写的，并且都是很久以前的。凤毛麟角里找到了一两篇swift的教程，折腾了两天总算完成了。写了一个仿黑客帝国里滚动文字的屏保，虽然丑了点儿，有些晃眼。但谁在乎呢，我又不用，实现才是目的。丑媳妇也要见公婆，先看一下最终效果😂<br><img src="/2017/09/29/swift写Mac屏保/screensaver.gif" alt="screensaver"></p>
+<h2 id="创建一个新项目"><a href="#创建一个新项目" class="headerlink" title="创建一个新项目"></a>创建一个新项目</h2><p>选择macOS选项，拉到最底下，最后一个，有一个Screen Saver。这位置，可见很少有人用啊！新建的时候你会发现，并没有勾选swift的选项，没关系，建完之后你就会发现：果然不是Swift的！先运行一下看看，在Products文件夹找到编译后的<code>CoolScreenSaver.saver</code>，这是我自己项目起的名字，反正找到一个<code>.saver</code>的文件就对了。然后右键<code>Open with Extenal Editor</code>，就可以安装了。可以先预览一下一片漆黑的屏保，接下来就可以开始了。</p>
+<p>新建一个swift的class，class选择<code>ScreenSaverView</code>。这是Xcode会提示报错，我们需要要把<code>ScreenSaver</code>引入进来，就可以解决了。怎么让程序支持swift呢？在<code>Build Settings -&gt; Building Options</code>里找到<code>Always Embed Swift Standard Libraries</code>，全部设置为<code>YES</code>。然后怎么让Xcode编译swift文件，而不是OC文件呢？好吧，在<code>info.plist</code>中，将<code>Principal Class</code>设置成你的Swift文件中的class，这样就可以使用swift编写了，两个OC文件可以删除了。需要注意的是，当你再编译运行屏保的时候，可能会提示当前版本的macOS不能运行你的屏保，联系管理员blahblah的东西，据说可能是那些swift库没有自动导入，可以通过万能的重启解决！还有一个问题需要注意，你编译并重新安装了新的屏保，系统不会实时刷新，需要关闭之前的偏好设置，重新打开才能预览重新编译之后的结果。嗯，我在这折腾了好久，以为自己写的没有效果，原来是这个原因，妹的！</p>
+<p>以上其实就是最主要的了！最难的不是代码，而是这些设置😂</p>
+<h2 id="ScreenSaverView的几个方法"><a href="#ScreenSaverView的几个方法" class="headerlink" title="ScreenSaverView的几个方法"></a>ScreenSaverView的几个方法</h2><p>我们的这个屏保主要用的这几个方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="keyword">init</span>?(frame: <span class="type">NSRect</span>, isPreview: <span class="type">Bool</span>) &#123;</div><div class="line">    <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame, isPreview: isPreview)</div><div class="line">&#125;</div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">draw</span><span class="params">(<span class="number">_</span> dirtyRect: NSRect)</span></span> &#123;</div><div class="line">    <span class="keyword">super</span>.draw(dirtyRect)</div><div class="line">&#125;</div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">startAnimation</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">super</span>.startAnimation()</div><div class="line">&#125;</div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">stopAnimation</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">super</span>.stopAnimation()</div><div class="line">&#125;</div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">animateOneFrame</span><span class="params">()</span></span> &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>命名这么明显了，就不多说了。主要工作在<code>animateOneFrame</code>，或者在<code>draw</code>方法里完成。如果是在<code>draw</code>里完成更新，那么需要在<code>animateOneFrame</code>中设置<code>needsDisplay=true</code>。主要的思路就是：</p>
+<ul>
+<li>生成一行行竖排文字</li>
+<li>随机分布在屏幕各个角落</li>
+<li>每一帧重新绘制的时候改变文字的纵坐标</li>
+<li>文字出屏之后，重新设置拉回到顶部</li>
+</ul>
+<h2 id="主要实现"><a href="#主要实现" class="headerlink" title="主要实现"></a>主要实现</h2><p>首先我们先声明一个结构体，用于存储文字坐标等信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct TextFieldSet &#123;</div><div class="line">    var x: CGFloat?</div><div class="line">    var y: CGFloat?</div><div class="line">    var h: CGFloat?</div><div class="line">    var field: NSTextField?</div><div class="line">    var speed: CGFloat?</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>声明几个变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var textFields: [TextFieldSet] = [TextFieldSet]() 	//存储生成的NSTextField及其相关坐标等信息</div><div class="line">let linesOfLetters = 100							//设置要生成的文字最大行数</div></pre></td></tr></table></figure>
+<p>在初始化方法里随机生成一堆字符串，并生成所需要的一堆<code>TextFieldSet</code>。之后就可以用这一堆<code>TextFieldSet</code>，在屏幕上进行渲染重绘等操作了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">override init?(frame: NSRect, isPreview: Bool) &#123;</div><div class="line">    super.init(frame: frame, isPreview: isPreview)</div><div class="line">    for _ in 0..&lt;linesOfLetters &#123;</div><div class="line">        let str = randomString(Int(SSRandomIntBetween(10, 50)))</div><div class="line">        self.collectTextField(str) 			//生成`TextFieldSet`的方法</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    self.animationTimeInterval = 1/60		//设置动画定时器速度</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>里面生成随机字符串的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">private func randomString(_ length: Int) -&gt; String&#123;</div><div class="line">    let str = &quot;abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYA0123456789&quot;</div><div class="line">    var randomStr = &quot;&quot;</div><div class="line">    </div><div class="line">    for _ in 0..&lt;length&#123;</div><div class="line">        let index = SSRandomIntBetween(0, Int32(str.count - 1))</div><div class="line">        randomStr += String(str[str.index(str.startIndex, offsetBy: Int(index))])</div><div class="line">    &#125;</div><div class="line">    return randomStr</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>里面获取字符串某个字符位置的方法，着实折腾了一番，基础不够。字符串没法直接使用<code>Int</code>类型的下标来获取某一个字符，只能用<code>String.Index</code>这样一个东西来获取。但我又没找到相关<code>Sting.Index</code>的生成或转译方法。只能通过截取字符串的形式了😂<br>再来看看生成<code>TextFieldSet</code>的方法，collectTextField：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">private func collectTextField(_ words: String)&#123;</div><div class="line">    let character = words.characters.map&#123;String($0)&#125;</div><div class="line">    let ret = character.joined(separator: &quot;\n&quot;)</div><div class="line">    let letter = self.makeTextField(NSString(string: ret)) 		//生成`NSTextField`的方法</div><div class="line">    let textField = TextFieldSet(x: letter.x, y: letter.y,  h: letter.h, field: letter.field, speed: letter.speed)</div><div class="line">    self.textFields.append(textField)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面这段主要把文字分割，然后用换行重新拼接起来，这样文字就竖排了。没有找到相关直接竖排的属性或方法，只有先这样了。然后生成<code>NSTextField</code>，并将其自身，以及相关坐标等信息存储到<code>textFields</code>中。接下来看看生成<code>NSTextField</code>的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">private func makeTextField(_ character: NSString) -&gt; (field: NSTextField, x: CGFloat, y: CGFloat, h: CGFloat, speed: CGFloat)&#123;</div><div class="line">        </div><div class="line">    let letterX = SSRandomFloatBetween(0, self.bounds.width)</div><div class="line">    let letterY = SSRandomFloatBetween(0, self.bounds.height)</div><div class="line">    let rect = NSMakeRect(</div><div class="line">        letterX,</div><div class="line">        letterY,</div><div class="line">        20,</div><div class="line">        self.bounds.height)</div><div class="line">    </div><div class="line">    let letter: NSTextField = NSTextField(</div><div class="line">        frame: rect)</div><div class="line">    </div><div class="line">    letter.lineBreakMode = .byCharWrapping</div><div class="line">    letter.isEditable = false</div><div class="line">    letter.isBordered = false</div><div class="line">    letter.alignment = .center</div><div class="line">    letter.backgroundColor = .clear</div><div class="line">    letter.font = NSFont(name: &quot;Raleway-Medium&quot;, size: SSRandomFloatBetween(14, 20))</div><div class="line">    letter.stringValue = character as String</div><div class="line">    letter.textColor = .green</div><div class="line">    letter.stringValue = character as String</div><div class="line">    letter.alphaValue = SSRandomFloatBetween(0, 1)</div><div class="line"> </div><div class="line">    return (field: letter, x: letterX, y: letterY, h: self.bounds.height, speed: SSRandomFloatBetween(10, 30))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里面随机生成了<code>NSTextField</code>横纵坐标，同时为了效果更好看一点，稍加美颜，加了随机透明度和随机速度，这样就之后可以看到文字深浅的不同，以及运行速度的不一了。这样，我们所有有用的东西都存在了<code>textFields</code>这个变量里了，接下来就可以用这里面的内容，实现绘制跟更新了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">private func updateTextPosition()&#123;</div><div class="line">    for index in 0..&lt;self.textFields.count &#123;</div><div class="line">        var text = self.textFields[index]</div><div class="line">        if let field = text.field&#123;</div><div class="line">            if text.y! &lt; -text.h!&#123;</div><div class="line">                text.y = self.bounds.height + text.h!</div><div class="line">            &#125;</div><div class="line">            text.y! -= text.speed!</div><div class="line">            self.textFields[index].y = text.y!</div><div class="line">            </div><div class="line">            field.frame = NSMakeRect(text.x!, text.y!, 20, text.h!)</div><div class="line">            </div><div class="line">            self.addSubview(field)</div><div class="line">            self.setNeedsDisplay(field.frame)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>不断的改变每一个<code>NSTextField</code>的纵坐标。需要注意的是，坐标轴的原点竟然是屏幕左下角，前端都是左上角！感觉有些别扭😂<br>接下来在<code>draw</code>方法或<code>animateOneFrame</code>方法中调用<code>updateTextPosition</code>，就可以不断更新了！速度可以自己调。不知道是电脑卡，还是调的不好，还是需要优化，我觉得好卡😂</p>
+<p>最后说一点，如果你想调试屏保，我只找到一个比较简单，但却没什么用处的方法。那就是给项目新建一个target，在这个target的<code>Appdelegate</code>中实例化你的屏保，并将其添加到<code>window.contentView</code>里。这样在屏保程序打个断点，编译新建的<code>target</code>，就可以调试了。但是，我实验的是结果，屏保根本没有在<code>target</code>中绘制，只是init了，所以我只能调试到init方法。<br>最后，附上GitHub地址：<a href="https://github.com/johnninja/screensaver" target="_blank" rel="external">screensaver</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://getter.me/2017/08/11/乞丐版swift-placeholder动画/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -326,7 +467,7 @@
           
             <p>在swift群里发现有人在找这种动画。感觉这种应该可以自己写，不用找别人的吧？于是自己就想试试能不能成功，毕竟菜鸟。下面是动画效果，大家应该都见过的。</p>
 <p><img src="/2017/08/11/乞丐版swift-placeholder动画/placeholder.gif" alt="placeholder"></p>
-<p>没错，就是这个简单的效果。自己找了一点儿资料，发现不是很复杂。但是自己对于iOS接触的太少，里面的API什么的都不熟悉，属于摸着石头过河。基本的实现方式就是自定义<code>UITextField</code>这个控件。</p>
+<p>没错，就是这个简单的效果！由于分辨率的问题，输入框的边框没显示全😂。自己找了一点儿资料，发现不是很复杂。但是自己对于iOS接触的太少，里面的API什么的都不熟悉，属于摸着石头过河。基本的实现方式就是自定义<code>UITextField</code>这个控件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">class LabelInput: UITextField &#123;</div><div class="line"></div><div class="line">    var placeholderLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))</div><div class="line">    var animationDuration: TimeInterval = 0.35</div><div class="line">    override func draw(_ rect: CGRect) &#123;</div><div class="line">        super.draw(rect)</div><div class="line">        self.addTarget(self, action: #selector(didEditEnd), for: .editingDidEnd)</div><div class="line">    &#125;</div><div class="line">    override func drawPlaceholder(in rect: CGRect) &#123;</div><div class="line">        super.drawPlaceholder(in: rect)</div><div class="line">        placeholderLabel = UILabel(frame: CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.size.width, height: rect.size.height))</div><div class="line">        placeholderLabel.text = placeholder</div><div class="line">        self.placeholder = nil</div><div class="line">        placeholderLabel.font = UIFont(name: self.font!.fontName, size: self.font!.pointSize)</div><div class="line">        self.addSubview(placeholderLabel)</div><div class="line">    &#125;</div><div class="line">    override func touchesBegan(_ touches: Set&lt;UITouch&gt;, with event: UIEvent?) &#123;</div><div class="line">        UIView.animate(withDuration: animationDuration, animations: &#123;</div><div class="line">          self.placeholderLabel.center = CGPoint(x: self.placeholderLabel.center.x, y: -20)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">    func didEditEnd()&#123;</div><div class="line">        if text?.characters.count == 0 &#123;</div><div class="line">            UIView.animate(withDuration: animationDuration, animations: &#123;</div><div class="line">                self.placeholderLabel.center = CGPoint(x: self.placeholderLabel.center.x, y: self.frame.size.height/2)</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这真真是一个乞丐版了。基本思路就是重写<code>drawPlaceholder</code>这个方法。新建一个<code>UILabel</code>替换掉原来真正的<code>placeholder</code>，然后接下来动画改变的其实是这个label。点击输入框的时候改变label的坐标，输入结束的时候判断一下输入框内容，如果是空的就让label回到原来位置。</p>
 <p>这个乞丐版只是改了一下y坐标，颜色什么都没关注，动画也没有调试，没有精确计算，只是一个思路而已。写前端的时候喜欢自己写这些控件之类的，我感觉有些简单的东西，自己写比到网上现找别人的要简单。多动手吧😂</p>
@@ -978,7 +1119,7 @@ Generating public/private rsa key pair.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
